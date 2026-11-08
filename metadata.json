@@ -1,0 +1,6 @@
+{
+  "name": "Grandmaster Studio - Windows Chess",
+  "description": "Windows-ready chess application with custom engine imports, real-time move analysis, seamless ELO difficulty scaling, and offline play.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
