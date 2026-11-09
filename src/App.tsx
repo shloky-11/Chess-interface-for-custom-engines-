@@ -238,14 +238,15 @@ export default function App() {
             soundService.playCheck();
           }
 
-          // Real-time analysis of the engine's move
+          // Real-time analysis of the engine's move (using cached engine evaluation)
           let moveAnalysis;
           if (realTimeAnalysis) {
             moveAnalysis = analyzePlayedMove(
               currentFen,
               fenAfter,
               moveAttempt.san,
-              currentChess.turn() === 'w' ? 'b' : 'w'
+              currentChess.turn() === 'w' ? 'b' : 'w',
+              evalResult
             );
           }
 
@@ -322,10 +323,10 @@ export default function App() {
         soundService.playCheck();
       }
 
-      // Real-time Move Analysis
+      // Real-time Move Analysis (zero-latency with cached evaluation)
       let analysis;
       if (realTimeAnalysis) {
-        analysis = analyzePlayedMove(fenBefore, fenAfter, moveResult.san, playerColor);
+        analysis = analyzePlayedMove(fenBefore, fenAfter, moveResult.san, playerColor, currentEvaluation);
         if (analysis.classification === 'blunder') {
           soundService.playBlunderAlert();
         }

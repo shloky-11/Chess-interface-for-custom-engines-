@@ -1,4 +1,4 @@
-import { Color, MoveClassification, MoveRecord, Square } from '../types/chess';
+import { Color, EngineEvaluation, MoveClassification, MoveRecord, Square } from '../types/chess';
 import { evaluatePosition } from './chessEngine';
 
 export interface MoveAnalysisResult {
@@ -14,15 +14,17 @@ export interface MoveAnalysisResult {
 
 /**
  * Analyzes a played move compared to the engine's best move in the position.
+ * Accepts optional knownEvalBefore to reuse existing calculations with 0ms latency.
  */
 export function analyzePlayedMove(
   fenBefore: string,
   fenAfter: string,
   playedSan: string,
-  playerColor: Color
+  playerColor: Color,
+  knownEvalBefore?: EngineEvaluation | null
 ): MoveAnalysisResult {
-  // Depth 3 for instantaneous real-time responsiveness
-  const evalBefore = evaluatePosition(fenBefore, 3);
+  // Use cached evaluation if available, otherwise calculate with fast iterative deepening
+  const evalBefore = knownEvalBefore || evaluatePosition(fenBefore, 3);
   const evalAfter = evaluatePosition(fenAfter, 3);
 
   const scoreBefore = evalBefore.score;
